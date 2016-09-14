@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Documentor</title>
+    <link href="prism/prism.css" rel="stylesheet" />
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -89,16 +90,28 @@ echo buildOptions($endpointStructure);
     });
 </script>
 <hr>
-<?php
 
+<?php
 $endpointDetails = $endpointDefs[$_GET['path']];
-echo $endpointDetails['method'] . " " . $endpointDetails['path'];
+
+if(empty($endpointDetails) === false) :
+?>
+<pre class="language-none no-pre">
+    <code>
+        <span class="token property"><?= $endpointDetails['method']; ?></span>
+        <?= preg_replace('/{(.+)}/', '<span class="token keyword">{$1}</span>', $endpointDetails['path']); ?>
+    </code>
+</pre>
+<?php endif; ?>
+
+
+<?php
 
 foreach (array_keys($endpointDetails['parameters']) as $parameter) {
     echo "<br>PARAM: " . $parameter;
 }
 
 ?>
-
+<script src="prism/prism.js"></script>
 </body>
 </html>
