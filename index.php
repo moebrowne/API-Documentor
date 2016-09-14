@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <title>Documentor</title>
     <link href="prism/prism.css" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
+<div class="container">
+    <h1>API Documentor <small>v0.1</small></h1>
 <?php
 
 $endpointDefs = json_decode(file_get_contents('endpointDefs.json'), true);
@@ -62,9 +65,10 @@ function buildOptions($options, $depth = 0)
     return "<select id='".uniqid()."'>".implode('', $selectOptions)."</select>".$selectNextLevel;
 }
 
-echo buildOptions($endpointStructure);
-
 ?>
+
+
+<?=  buildOptions($endpointStructure); ?>
 
 <script>
     $('select').on('change', function() {
@@ -94,46 +98,86 @@ echo buildOptions($endpointStructure);
 <?php
 $endpointDetails = $endpointDefs[$_GET['path']];
 
-if(empty($endpointDetails) === false) :
-?>
-<pre class="language-none no-pre">
-    <code>
-        <span class="token property"><?= $endpointDetails['method']; ?></span>
-        <?= preg_replace('/{(.+)}/', '<span class="token keyword">{$1}</span>', $endpointDetails['path']); ?>
-    </code>
-</pre>
+if(empty($endpointDetails) === false) : ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <pre class="language-none no-pre" style="font-size: 110%;">
+                <code>
+                    <span class="token property"><?= $endpointDetails['method']; ?></span>
+                    <?= preg_replace('/{(.+)}/', '<span class="token keyword">{$1}</span>', $endpointDetails['path']); ?>
+                    ?
+                    <?php foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) : ?>
+                        <span class="token keyword"><?= $parameterName; ?></span>=<span class="token regex"><?= $parameterDetails['regex']; ?></span>
+                        <?= (end($endpointDetails['parameters']) !== $endpointDetails['parameters'][$parameterName]) ? '&':''; ?>
+                    <?php endforeach; ?>
+
+                </code>
+            </pre>
+        </div>
+    </div>
 <?php endif; ?>
 
-<h2>Arguments</h2>
+    <div class="page-header">
+        <h2>Arguments</h2>
+    </div>
 
-<?php
+    <div class="row">
+        <?php
 
-foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) {
-    ?>
-    <pre class="language-none no-pre">
-        <code>
-            <span class="token keyword"><?= $argumentName; ?></span>
-        </code>
-    </pre>
+        foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) {
+            ?>
+            <div class="col-sm-3">
+                <ul class="list-group">
+                    <li class="list-group-item active">
+                        <?= $argumentName; ?>
+                        <span class="badge">Required</span>
+                    </li>
+                    <?php if (array_key_exists('regex', $argumentDetails)) : ?>
+                        <li class="list-group-item">
+                            Pattern: <?= $argumentDetails['regex']; ?>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+
+
+    <div class="page-header">
+        <h2>Parameters</h2>
+    </div>
+
+    <div class="row">
     <?php
-}
-?>
 
-<h2>Parameters</h2>
-
-<?php
-
-foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) {
+    foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) {
+        ?>
+        <div class="col-sm-3">
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    <?= $parameterName; ?>=<span class="token regex"><?= $parameterDetails['regex']; ?></span>
+                    <?php if($parameterDetails['required'] === true) : ?>
+                        <span class="badge">Required</span>
+                    <?php endif; ?>
+                </li>
+            <?php if (array_key_exists('default', $parameterDetails)) : ?>
+                <li class="list-group-item">
+                    Default: <?= var_export($parameterDetails['default']); ?>
+                </li>
+            <?php endif; ?>
+            </ul>
+        </div>
+        <?php
+    }
     ?>
-    <pre class="language-none no-pre">
-        <code>
-            ?<?= $parameterName; ?>=<span class="token keyword"><?= $parameterDetails['regex']; ?></span>
-        </code>
-    </pre>
-    <?php
-}
-?>
+    </div>
+
+</div>
 
 <script src="prism/prism.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
