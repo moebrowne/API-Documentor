@@ -117,6 +117,7 @@ if(empty($endpointDetails) === false) : ?>
     </div>
 <?php endif; ?>
 
+<?php if(array_key_exists('arguments', $endpointDetails) && count($endpointDetails['arguments']) > 0) : ?>
     <div class="page-header">
         <h2>Arguments</h2>
     </div>
@@ -143,8 +144,10 @@ if(empty($endpointDetails) === false) : ?>
         }
         ?>
     </div>
+<?php endif; ?>
 
 
+<?php if(array_key_exists('parameters', $endpointDetails) && count($endpointDetails['parameters']) > 0) : ?>
     <div class="page-header">
         <h2>Parameters</h2>
     </div>
@@ -173,6 +176,7 @@ if(empty($endpointDetails) === false) : ?>
     }
     ?>
     </div>
+<?php endif; ?>
 
 </div>
 
