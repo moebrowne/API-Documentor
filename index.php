@@ -104,14 +104,21 @@ if(empty($endpointDetails) === false) :
 </pre>
 <?php endif; ?>
 
+<h2>Parameters</h2>
 
 <?php
 
-foreach (array_keys($endpointDetails['parameters']) as $parameter) {
-    echo "<br>PARAM: " . $parameter;
+foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) {
+    ?>
+    <pre class="language-none no-pre">
+        <code>
+            ?<?= $parameterName; ?>=<span class="token keyword"><?= $parameterDetails['regex']; ?></span>
+        </code>
+    </pre>
+    <?php
 }
-
 ?>
+
 <script src="prism/prism.js"></script>
 </body>
 </html>
