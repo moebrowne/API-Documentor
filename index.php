@@ -104,21 +104,6 @@ if(empty($endpointDetails) === false) :
 </pre>
 <?php endif; ?>
 
-<h2>Parameters</h2>
-
-<?php
-
-foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) {
-    ?>
-    <pre class="language-none no-pre">
-        <code>
-            ?<?= $parameterName; ?>=<span class="token keyword"><?= $parameterDetails['regex']; ?></span>
-        </code>
-    </pre>
-    <?php
-}
-?>
-
 <h2>Arguments</h2>
 
 <?php
@@ -128,6 +113,21 @@ foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) {
     <pre class="language-none no-pre">
         <code>
             <span class="token keyword"><?= $argumentName; ?></span>
+        </code>
+    </pre>
+    <?php
+}
+?>
+
+<h2>Parameters</h2>
+
+<?php
+
+foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) {
+    ?>
+    <pre class="language-none no-pre">
+        <code>
+            ?<?= $parameterName; ?>=<span class="token keyword"><?= $parameterDetails['regex']; ?></span>
         </code>
     </pre>
     <?php
