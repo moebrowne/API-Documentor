@@ -119,6 +119,21 @@ foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) 
 }
 ?>
 
+<h2>Arguments</h2>
+
+<?php
+
+foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) {
+    ?>
+    <pre class="language-none no-pre">
+        <code>
+            <span class="token keyword"><?= $argumentName; ?></span>
+        </code>
+    </pre>
+    <?php
+}
+?>
+
 <script src="prism/prism.js"></script>
 </body>
 </html>
