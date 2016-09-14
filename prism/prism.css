@@ -5,6 +5,11 @@
  * @author ocodia
  */
 
+
+pre[class*="language-"].no-pre {
+	white-space: normal;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
 	color: #f8f8f2;
