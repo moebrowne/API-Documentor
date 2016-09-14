@@ -161,14 +161,27 @@ if(empty($endpointDetails) === false) : ?>
         <div class="col-sm-3">
             <ul class="list-group">
                 <li class="list-group-item active">
-                    <?= $parameterName; ?>=<span class="token regex"><?= $parameterDetails['regex']; ?></span>
+                    <?= $parameterName; ?>
                     <?php if($parameterDetails['required'] === true) : ?>
                         <span class="badge">Required</span>
                     <?php endif; ?>
                 </li>
             <?php if (array_key_exists('default', $parameterDetails)) : ?>
                 <li class="list-group-item">
-                    Default: <?= var_export($parameterDetails['default']); ?>
+                    Default:
+                        <span class="
+                            token
+                            <?= is_bool($parameterDetails['default']) ? 'boolean':''; ?>
+                            <?= is_numeric($parameterDetails['default']) ? 'number':''; ?>
+                            <?= is_string($parameterDetails['default']) ? 'string':''; ?>
+                            ">
+                            <?= var_export($parameterDetails['default']); ?>
+                        </span>
+                </li>
+            <?php endif; ?>
+            <?php if (array_key_exists('regex', $parameterDetails)) : ?>
+                <li class="list-group-item">
+                    Pattern: <span class="token regex"><?= $parameterDetails['regex']; ?></span>
                 </li>
             <?php endif; ?>
             </ul>
