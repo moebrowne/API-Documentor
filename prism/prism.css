@@ -6,7 +6,8 @@
  */
 
 
-pre[class*="language-"].no-pre {
+pre[class*="language-"].no-pre,
+pre[class*="language-"].no-pre code {
 	white-space: normal;
 }
 
