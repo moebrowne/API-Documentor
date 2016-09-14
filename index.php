@@ -105,12 +105,13 @@ if(empty($endpointDetails) === false) : ?>
                 <code>
                     <span class="token property"><?= $endpointDetails['method']; ?></span>
                     <?= preg_replace('/{(.+)}/', '<span class="token keyword">{$1}</span>', $endpointDetails['path']); ?>
-                    ?
-                    <?php foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) : ?>
-                        <span class="token keyword"><?= $parameterName; ?></span>=<span class="token regex"><?= $parameterDetails['regex']; ?></span>
-                        <?= (end($endpointDetails['parameters']) !== $endpointDetails['parameters'][$parameterName]) ? '&':''; ?>
-                    <?php endforeach; ?>
-
+                    <?php if (array_key_exists('parameters', $endpointDetails) && count($endpointDetails['parameters']) > 0) : ?>
+                        ?
+                        <?php foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) : ?>
+                            <span class="token keyword"><?= $parameterName; ?></span>=<span class="token regex"><?= $parameterDetails['regex']; ?></span>
+                            <?= (end($endpointDetails['parameters']) !== $endpointDetails['parameters'][$parameterName]) ? '&':''; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </code>
             </pre>
         </div>
