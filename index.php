@@ -120,7 +120,7 @@ if(empty($endpointDetails) === false) : ?>
 
 <?php if(array_key_exists('arguments', $endpointDetails) && count($endpointDetails['arguments']) > 0) : ?>
     <div class="page-header">
-        <h2>Arguments</h2>
+        <h2>Path Parameters</h2>
     </div>
 
     <div class="row">
@@ -149,46 +149,37 @@ if(empty($endpointDetails) === false) : ?>
 
 
 <?php if(array_key_exists('parameters', $endpointDetails) && count($endpointDetails['parameters']) > 0) : ?>
-    <div class="page-header">
-        <h2>Parameters</h2>
-    </div>
 
     <div class="row">
-    <?php
+        <div class="col-md-12">
+            <h2>Query String Parameters</h2>
 
-    foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) {
-        ?>
-        <div class="col-sm-3">
-            <ul class="list-group">
-                <li class="list-group-item active">
-                    <?= $parameterName; ?>
-                    <?php if($parameterDetails['required'] === true) : ?>
-                        <span class="badge">Required</span>
-                    <?php endif; ?>
-                </li>
-            <?php if (array_key_exists('default', $parameterDetails)) : ?>
-                <li class="list-group-item">
-                    Default:
-                        <span class="
-                            token
-                            <?= is_bool($parameterDetails['default']) ? 'boolean':''; ?>
-                            <?= is_numeric($parameterDetails['default']) ? 'number':''; ?>
-                            <?= is_string($parameterDetails['default']) ? 'string':''; ?>
-                            ">
-                            <?= var_export($parameterDetails['default']); ?>
-                        </span>
-                </li>
-            <?php endif; ?>
-            <?php if (array_key_exists('regex', $parameterDetails)) : ?>
-                <li class="list-group-item">
-                    Pattern: <span class="token regex"><?= $parameterDetails['regex']; ?></span>
-                </li>
-            <?php endif; ?>
-            </ul>
+            <table class="table">
+            <?php foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) : ?>
+                <tr>
+                    <td>
+                        <strong>
+                            <?= $parameterName; ?>
+                            <?php if($parameterDetails['required'] === true) : ?>
+                                <span style="color: #AD0000; font-size: 20px;">*</span>
+                            <?php endif; ?>
+                        </strong>
+                    </td>
+                    <td>
+                        <small style="color: #999;">Type:</small><br>
+                        <strong class="token <?= $parameterDetails['type']; ?>"><?= $parameterDetails['type']; ?></strong>
+                    </td>
+                    <td>
+                        <small style="color: #999;">Default:</small><br>
+                        <strong><?= $parameterDetails['default']; ?></strong>
+                    </td>
+                    <td>
+                        Short description of the parameter and its function
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </table>
         </div>
-        <?php
-    }
-    ?>
     </div>
 <?php endif; ?>
 
