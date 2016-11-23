@@ -119,31 +119,33 @@ if(empty($endpointDetails) === false) : ?>
 <?php endif; ?>
 
 <?php if(array_key_exists('arguments', $endpointDetails) && count($endpointDetails['arguments']) > 0) : ?>
-    <div class="page-header">
-        <h2>Path Parameters</h2>
-    </div>
 
     <div class="row">
-        <?php
+        <div class="col-md-12">
+            <h2>Path Parameters</h2>
 
-        foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) {
-            ?>
-            <div class="col-sm-3">
-                <ul class="list-group">
-                    <li class="list-group-item active">
-                        <?= $argumentName; ?>
-                        <span class="badge">Required</span>
-                    </li>
-                    <?php if (array_key_exists('regex', $argumentDetails)) : ?>
-                        <li class="list-group-item">
-                            Pattern: <?= $argumentDetails['regex']; ?>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-            <?php
-        }
-        ?>
+            <table class="table">
+            <?php foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) : ?>
+                <tr>
+                    <td>
+                        <strong>
+                            <?= $argumentName; ?>
+                            <?php if($argumentDetails['required'] !== false) : ?>
+                                <span style="color: #AD0000; font-size: 20px;">*</span>
+                            <?php endif; ?>
+                        </strong>
+                    </td>
+                    <td>
+                        <small style="color: #999;">Type:</small><br>
+                        <strong class="token <?= $argumentDetails['type']; ?>"><?= $argumentDetails['type']; ?></strong>
+                    </td>
+                    <td>
+                        Short description of the parameter and its function
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </table>
+        </div>
     </div>
 <?php endif; ?>
 
