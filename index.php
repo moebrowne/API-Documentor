@@ -127,14 +127,12 @@ if(empty($endpointDetails) === false) : ?>
             <table class="table">
             <?php foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) : ?>
                 <tr>
-                    <td>
-                        <strong>
-                            <?= $argumentName; ?>
-                            <?php if($argumentDetails['required'] !== false) : ?>
-                                <span style="color: #AD0000; font-size: 20px;">*</span>
-                            <?php endif; ?>
-                        </strong>
-                    </td>
+                    <th>
+                        <?= $argumentName; ?>
+                        <?php if($argumentDetails['required'] !== false) : ?>
+                            <span style="color: #AD0000; font-size: 20px;">*</span>
+                        <?php endif; ?>
+                    </th>
                     <td>
                         <small style="color: #999;">Type:</small><br>
                         <strong class="token <?= $argumentDetails['type']; ?>"><?= $argumentDetails['type']; ?></strong>
@@ -159,14 +157,12 @@ if(empty($endpointDetails) === false) : ?>
             <table class="table">
             <?php foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) : ?>
                 <tr>
-                    <td>
-                        <strong>
-                            <?= $parameterName; ?>
-                            <?php if($parameterDetails['required'] === true) : ?>
-                                <span style="color: #AD0000; font-size: 20px;">*</span>
-                            <?php endif; ?>
-                        </strong>
-                    </td>
+                    <th>
+                        <?= $parameterName; ?>
+                        <?php if($parameterDetails['required'] === true) : ?>
+                            <span style="color: #AD0000; font-size: 20px;">*</span>
+                        <?php endif; ?>
+                    </th>
                     <td>
                         <small style="color: #999;">Type:</small><br>
                         <strong class="token <?= $parameterDetails['type']; ?>"><?= $parameterDetails['type']; ?></strong>
