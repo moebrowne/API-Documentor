@@ -127,13 +127,13 @@ if(empty($endpointDetails) === false) : ?>
             <table class="table">
             <?php foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) : ?>
                 <tr>
-                    <th>
+                    <th width="20%">
                         <?= $argumentName; ?>
                         <?php if($argumentDetails['required'] !== false) : ?>
                             <span style="color: #AD0000; font-size: 20px;">*</span>
                         <?php endif; ?>
                     </th>
-                    <td>
+                    <td width="22%">
                         <small style="color: #999;">Type:</small><br>
                         <strong class="token <?= $argumentDetails['type']; ?>"><?= $argumentDetails['type']; ?></strong>
                     </td>
@@ -157,17 +157,17 @@ if(empty($endpointDetails) === false) : ?>
             <table class="table">
             <?php foreach ($endpointDetails['parameters'] as $parameterName => $parameterDetails) : ?>
                 <tr>
-                    <th>
+                    <th width="20%">
                         <?= $parameterName; ?>
                         <?php if($parameterDetails['required'] === true) : ?>
                             <span style="color: #AD0000; font-size: 20px;">*</span>
                         <?php endif; ?>
                     </th>
-                    <td>
+                    <td width="11%">
                         <small style="color: #999;">Type:</small><br>
                         <strong class="token <?= $parameterDetails['type']; ?>"><?= $parameterDetails['type']; ?></strong>
                     </td>
-                    <td>
+                    <td width="11%">
                         <small style="color: #999;">Default:</small><br>
                         <strong><?= $parameterDetails['default']; ?></strong>
                     </td>
