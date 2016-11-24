@@ -138,7 +138,9 @@ if(empty($endpointDetails) === false) : ?>
                         <strong class="token <?= $argumentDetails['type']; ?>"><?= $argumentDetails['type']; ?></strong>
                     </td>
                     <td>
-                        Short description of the parameter and its function
+                        <?php if (!empty($argumentDetails['description'])) : ?>
+                            <?= $argumentDetails['description']; ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -172,7 +174,9 @@ if(empty($endpointDetails) === false) : ?>
                         <strong><?= $parameterDetails['default']; ?></strong>
                     </td>
                     <td>
-                        Short description of the parameter and its function
+                        <?php if (!empty($parameterDetails['description'])) : ?>
+                            <?= $parameterDetails['description']; ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
