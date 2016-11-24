@@ -171,7 +171,13 @@ if(empty($endpointDetails) === false) : ?>
                     </td>
                     <td width="11%">
                         <small style="color: #999;">Default:</small><br>
-                        <strong><?= $parameterDetails['default']; ?></strong>
+                        <strong>
+                            <?php if ($parameterDetails['default'] === null) : ?>
+                                <span style="color: #777; font-size: 12px; font-style: italic;">NULL</span>
+                            <?php else : ?>
+                                <?= $parameterDetails['default']; ?>
+                            <?php endif; ?>
+                        </strong>
                     </td>
                     <td>
                         <?php if (!empty($parameterDetails['description'])) : ?>
