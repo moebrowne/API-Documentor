@@ -44,7 +44,7 @@ function buildOptions($options, $parentPath = null, $depth = 0)
 
     $selectOptions = [];
     $selectNextLevel = '';
-    $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 0;">Select <span class="caret"></span></button>';
+    $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select <span class="caret"></span></button>';
 
     foreach ($options as $key => $option) {
 
@@ -52,7 +52,7 @@ function buildOptions($options, $parentPath = null, $depth = 0)
 
         if (isset($jsonPath[$depth]) && $jsonPath[$depth] === $key) {
             $selectNextLevel = buildOptions($option, $path, ++$depth);
-            $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 0;">'.$key.' <span class="caret"></span></button>';
+            $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.$key.' <span class="caret"></span></button>';
             //continue;
         }
 
@@ -62,21 +62,22 @@ function buildOptions($options, $parentPath = null, $depth = 0)
     $options = implode('', $selectOptions);
 
     return <<<HTML
-    <div class="dropdown" style="float: left;">
+    <li class="dropdown">
         {$selectedOption}
         <ul class="dropdown-menu">
             {$options}
         </ul>
-    </div>
+    </li>
     {$selectNextLevel}
 HTML;
 }
 
 ?>
 
-
 <div class="row">
-    <?= buildOptions($endpointStructure); ?>
+    <ol class="breadcrumb">
+        <?= buildOptions($endpointStructure); ?>
+    </ol>
 </div>
 
 <script>
