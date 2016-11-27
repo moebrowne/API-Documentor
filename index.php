@@ -37,7 +37,8 @@ function buildOptions($options, $parentPath = null, $depth = 0)
 {
     global $jsonPath;
 
-    if (is_array($options) === false) {
+    // If there are no options there is no need to continue
+    if (is_array($options) === false || count($options) === 0) {
         return;
     }
 
@@ -56,11 +57,6 @@ function buildOptions($options, $parentPath = null, $depth = 0)
         }
 
         $selectOptions[] = '<li><a href="?path=' . $path .'">'.$key.'</a></li>';
-    }
-
-    // If there are no options there is no need to continue
-    if (count($options) === 0) {
-        return;
     }
 
     $options = implode('', $selectOptions);
