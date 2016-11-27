@@ -33,7 +33,7 @@ foreach ($endpointDefs as $endpointSignature => $endpointDef) {
 
 $jsonPath = array_filter(explode('.', $_GET['path']));
 
-function buildOptions($options, $depth = 0)
+function buildOptions($options, $parentPath = null, $depth = 0)
 {
     global $jsonPath;
 
@@ -43,32 +43,47 @@ function buildOptions($options, $depth = 0)
 
     $selectOptions = [];
     $selectNextLevel = '';
+    $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select <span class="caret"></span></button>';
 
     foreach ($options as $key => $option) {
-        $selected = '';
+
+        $path = !is_null($parentPath) ? $parentPath . '.' . $key:$key;
 
         if (isset($jsonPath[$depth]) && $jsonPath[$depth] === $key) {
-            $selectNextLevel = buildOptions($option, ++$depth);
-            $selected = ' selected';
+            $selectNextLevel = buildOptions($option, $path, ++$depth);
+            $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.$key.' <span class="caret"></span></button>';
+            continue;
         }
 
-        $selectOptions[] = "<option value='".$key."' ".$selected.">".$key."</option>";
+        $selectOptions[] = '<li><a href="?path=' . $path .'">'.$key.'</a></li>';
     }
 
-    if (count($selectOptions) > 0) {
-        array_unshift($selectOptions, "<option value=''>Select...</option>");
+    if (count($options) > 0) {
+        //array_unshift($selectOptions, '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select <span class="caret"></span></button>');
     }
     else {
         return;
     }
 
-    return "<select id='".uniqid()."'>".implode('', $selectOptions)."</select>".$selectNextLevel;
+    $options = implode('', $selectOptions);
+
+    return <<<HTML
+    <div class="input-group-btn">
+        {$selectedOption}
+        <ul class="dropdown-menu">
+            {$options}
+        </ul>
+    </div>
+    {$selectNextLevel}
+HTML;
 }
 
 ?>
 
 
+<div class="input-group">
 <?=  buildOptions($endpointStructure); ?>
+</div>
 
 <script>
     $('select').on('change', function() {
