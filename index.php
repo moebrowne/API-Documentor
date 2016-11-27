@@ -58,10 +58,8 @@ function buildOptions($options, $parentPath = null, $depth = 0)
         $selectOptions[] = '<li><a href="?path=' . $path .'">'.$key.'</a></li>';
     }
 
-    if (count($options) > 0) {
-        //array_unshift($selectOptions, '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select <span class="caret"></span></button>');
-    }
-    else {
+    // If there are no options there is no need to continue
+    if (count($options) === 0) {
         return;
     }
 
