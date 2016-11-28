@@ -54,11 +54,11 @@ function buildOptions($options, $parentPath = null, $depth = 0)
 
         if (isset($jsonPath[$depth]) && $jsonPath[$depth] === $key) {
             $selectNextLevel = buildOptions($option, $path, ++$depth);
-            $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.$key.' <span class="caret"></span></button>';
+            $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.ucwords($key).' <span class="caret"></span></button>';
             //continue;
         }
 
-        $selectOptions[] = '<li><a href="?path=' . $path .'">'.$key.'</a></li>';
+        $selectOptions[] = '<li><a href="?path=' . $path .'">'.ucwords($key).'</a></li>';
     }
 
     $options = implode('', $selectOptions);
