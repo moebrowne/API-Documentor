@@ -33,42 +33,52 @@ foreach ($endpointDefs as $endpointSignature => $endpointDef) {
 
 $jsonPath = array_filter(explode('.', $_GET['path']));
 
-function buildOptions($options, $depth = 0)
+function buildOptions($options, $parentPath = null, $depth = 0)
 {
     global $jsonPath;
 
-    if (is_array($options) === false) {
+    // If there are no options there is no need to continue
+    if (is_array($options) === false || count($options) === 0) {
         return;
     }
 
     $selectOptions = [];
     $selectNextLevel = '';
+    $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select <span class="caret"></span></button>';
 
     foreach ($options as $key => $option) {
-        $selected = '';
+
+        $path = !is_null($parentPath) ? $parentPath . '.' . $key:$key;
 
         if (isset($jsonPath[$depth]) && $jsonPath[$depth] === $key) {
-            $selectNextLevel = buildOptions($option, ++$depth);
-            $selected = ' selected';
+            $selectNextLevel = buildOptions($option, $path, ++$depth);
+            $selectedOption = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.$key.' <span class="caret"></span></button>';
+            //continue;
         }
 
-        $selectOptions[] = "<option value='".$key."' ".$selected.">".$key."</option>";
+        $selectOptions[] = '<li><a href="?path=' . $path .'">'.$key.'</a></li>';
     }
 
-    if (count($selectOptions) > 0) {
-        array_unshift($selectOptions, "<option value=''>Select...</option>");
-    }
-    else {
-        return;
-    }
+    $options = implode('', $selectOptions);
 
-    return "<select id='".uniqid()."'>".implode('', $selectOptions)."</select>".$selectNextLevel;
+    return <<<HTML
+    <li class="dropdown">
+        {$selectedOption}
+        <ul class="dropdown-menu">
+            {$options}
+        </ul>
+    </li>
+    {$selectNextLevel}
+HTML;
 }
 
 ?>
 
-
-<?=  buildOptions($endpointStructure); ?>
+<div class="row">
+    <ol class="breadcrumb">
+        <?= buildOptions($endpointStructure); ?>
+    </ol>
+</div>
 
 <script>
     $('select').on('change', function() {
