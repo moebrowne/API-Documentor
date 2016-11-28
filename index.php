@@ -25,6 +25,8 @@ function dotToArray($arrayOfKeys) {
     return $result;
 }
 
+ksort($endpointDefs);
+
 foreach ($endpointDefs as $endpointSignature => $endpointDef) {
     $endpointSignatureArray = explode('.', $endpointSignature);
     $endpointStructure = array_merge_recursive($endpointStructure, dotToArray($endpointSignatureArray));
