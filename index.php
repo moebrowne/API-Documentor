@@ -214,7 +214,13 @@ if(empty($endpointDetails) === false) : ?>
                 <?php foreach ($endpointDetails['response'] as $responseParameter => $responseDetails) : ?>
                     <tr>
                         <th width="20%">
-                            <?= $responseParameter; ?>
+                            <?php if (!empty($responseDetails['references'])) : ?>
+                            <a href="?path=<?= $responseDetails['references']; ?>">
+                                <?= $responseParameter; ?>
+                            </a>
+                            <?php else : ?>
+                                <?= $responseParameter; ?>
+                            <?php endif; ?>
                         </th>
                         <td width="22%">
                             <small style="color: #999;">Type:</small><br>
