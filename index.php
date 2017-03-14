@@ -137,10 +137,10 @@ if(empty($endpointDetails) === false) : ?>
             <h2>Path Parameters</h2>
 
             <table class="table">
-            <?php foreach ($endpointDetails['arguments'] as $argumentName => $argumentDetails) : ?>
+            <?php foreach ($endpointDetails['arguments'] as $responseParameter => $argumentDetails) : ?>
                 <tr>
                     <th width="20%">
-                        <?= $argumentName; ?>
+                        <?= $responseParameter; ?>
                         <?php if($argumentDetails['required'] !== false) : ?>
                             <span style="color: #AD0000; font-size: 20px;">*</span>
                         <?php endif; ?>
@@ -198,6 +198,41 @@ if(empty($endpointDetails) === false) : ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+<?php if(array_key_exists('response', $endpointDetails) && count($endpointDetails['arguments']) > 0) : ?>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Response</h2>
+
+            <table class="table">
+                <?php foreach ($endpointDetails['response'] as $responseParameter => $responseDetails) : ?>
+                    <tr>
+                        <th width="20%">
+                            <?php if (!empty($responseDetails['references'])) : ?>
+                            <a href="?path=<?= $responseDetails['references']; ?>">
+                                <?= $responseParameter; ?>
+                            </a>
+                            <?php else : ?>
+                                <?= $responseParameter; ?>
+                            <?php endif; ?>
+                        </th>
+                        <td width="22%">
+                            <small style="color: #999;">Type:</small><br>
+                            <strong class="token <?= $responseDetails['type']; ?>"><?= $responseDetails['type']; ?></strong>
+                        </td>
+                        <td>
+                            <?php if (!empty($responseDetails['description'])) : ?>
+                                <?= $responseDetails['description']; ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </table>
         </div>
     </div>
